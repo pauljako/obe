@@ -53,9 +53,11 @@ def run(action, arg1, arg2, arg3):
         except:
             print("obe Error: Cannot import the os module.")
         try:
-            os.system(arg1)
+            space["LAST"] = os.system(arg1)
         except:
             print(f"Error: Error while running {arg1}")
+    elif action == "quit":
+        quit()
     else:
         print(f"Error: Unknown Action \"{action}\"")
 
