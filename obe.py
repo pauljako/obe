@@ -5,7 +5,7 @@ import os, inspect
 # Set constants.
 VERSION = "beta0.2"
 USAGE = "obe <filepath>"
-OBS_DIR = os.path.dirname(os.path.realpath("__file__"))
+OBE_DIR = os.path.dirname(os.path.realpath("__file__"))
 OBE_NAME = inspect.getframeinfo(inspect.currentframe()).filename
 PATH = os.path.dirname(os.path.abspath(OBE_NAME))
 
@@ -70,6 +70,9 @@ def run(action, arg1, arg2, arg3):
             print(f"Error: Error while running {arg1}")
     elif action == "quit":
         quit()
+    elif action == "open":
+        import webbrowser
+        webbrowser.open(arg1)
     elif action == "":
         pass
     else:
@@ -87,7 +90,7 @@ if __name__ == '__main__':
         # Read & Runs file
         else:
             try:
-                filepath = os.path.join(OBS_DIR, sys.argv[1])
+                filepath = os.path.join(OBE_DIR, sys.argv[1])
                 with open(filepath, "rt") as f:
                     lines = f.readlines()
                     try:
