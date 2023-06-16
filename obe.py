@@ -1,8 +1,14 @@
 #!/usr/bin/python3
+
+# Set constants.
+VERSION = "beta0.2"
 USAGE = "obe <filepath>"
+
+# Set Space to default.
 space = {"LAST": None}
 
 
+# Parses Code and Runs it.
 def parse(code):
     global space
     spc = code.split(" ")
@@ -28,6 +34,7 @@ def parse(code):
     run(action, arg1, arg2, arg3)
 
 
+# Runs the code.
 def run(action, arg1, arg2, arg3):
     global space
     if action == "print":
@@ -64,11 +71,16 @@ def run(action, arg1, arg2, arg3):
 
 if __name__ == '__main__':
     import sys
-    try:
-        filepath = sys.argv[1]
-        with open(filepath, "rt") as f:
-            lines = f.readlines()
-            for l in lines:
-                parse(l.replace("\n", ""))
-    except:
-        print(f"Usage: {USAGE}")
+    # Display Version
+    if sys.argv[1] == "-v" or sys.argv[1] == "--version":
+        print(f"obe version: {VERSION}")
+    # Read & Runs file
+    else:
+        try:
+            filepath = sys.argv[1]
+            with open(filepath, "rt") as f:
+                lines = f.readlines()
+                for l in lines:
+                    parse(l.replace("\n", ""))
+        except:
+            print(f"Usage: {USAGE}")
