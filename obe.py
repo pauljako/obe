@@ -1,8 +1,11 @@
 #!/usr/bin/python3
 
+import os
+
 # Set constants.
 VERSION = "beta0.2"
 USAGE = "obe <filepath>"
+OBS_DIR = os.path.dirname(os.path.realpath("__file__"))
 
 # Set Space to default.
 space = {"LAST": None}
@@ -45,13 +48,13 @@ def run(action, arg1, arg2, arg3):
         space["LAST"] = arg1 + arg2
     elif action == "math":
         if arg2 == "+":
-            space["LAST"] = str(int(arg1) + int(arg3))
+            space["LAST"] = int(arg1) + int(arg3)
         elif arg2 == "-":
-            space["LAST"] = str(int(arg1) - int(arg3))
+            space["LAST"] = int(arg1) - int(arg3)
         elif arg2 == "*":
-            space["LAST"] = str(int(arg1) * int(arg3))
+            space["LAST"] = int(arg1) * int(arg3)
         elif arg2 == "/":
-            space["LAST"] = str(int(arg1) / int(arg3))
+            space["LAST"] = int(arg1) / int(arg3)
     elif action == "input":
         space["LAST"] = input(arg1)
     elif action == "run":
@@ -71,16 +74,22 @@ def run(action, arg1, arg2, arg3):
 
 if __name__ == '__main__':
     import sys
-    # Display Version
-    if sys.argv[1] == "-v" or sys.argv[1] == "--version":
-        print(f"obe version: {VERSION}")
-    # Read & Runs file
-    else:
-        try:
-            filepath = sys.argv[1]
-            with open(filepath, "rt") as f:
-                lines = f.readlines()
-                for l in lines:
-                    parse(l.replace("\n", ""))
-        except:
-            print(f"Usage: {USAGE}")
+    try:
+        # Display Version
+        if sys.argv[1] == "-v" or sys.argv[1] == "--version":
+            print(f"obe version: {VERSION}")
+        # Read & Runs file
+        else:
+            try:
+                filepath = os.path.join(OBS_DIR, sys.argv[1])
+                with open(filepath, "rt") as f:
+                    lines = f.readlines()
+                    try:
+                        for l in lines:
+                            parse(l.replace("\n", ""))
+                    except:
+                        print("An Unknown Error occurred")
+            except:
+                print(f"Error: cannot load file \"{filepath}\"")
+    except:
+        print(f"Usage: {USAGE}")
