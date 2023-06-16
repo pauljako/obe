@@ -47,6 +47,15 @@ def run(action, arg1, arg2, arg3):
             space["LAST"] = str(int(arg1) / int(arg3))
     elif action == "input":
         space["LAST"] = input(arg1)
+    elif action == "run":
+        try:
+            import os
+        except:
+            print("obe Error: Cannot import the os module.")
+        try:
+            os.system(arg1)
+        except:
+            print(f"Error: Error while running {arg1}")
     else:
         print(f"Error: Unknown Action \"{action}\"")
 
