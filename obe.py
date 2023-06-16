@@ -45,7 +45,7 @@ def run(action, arg1, arg2, arg3):
     elif action == "space":
         space[arg1] = arg2
     elif action == "join":
-        space["LAST"] = arg1 + arg2
+        space["LAST"] = str(arg1) + str(arg2)
     elif action == "math":
         if arg2 == "+":
             space["LAST"] = int(arg1) + int(arg3)
@@ -68,6 +68,8 @@ def run(action, arg1, arg2, arg3):
             print(f"Error: Error while running {arg1}")
     elif action == "quit":
         quit()
+    elif action == "":
+        pass
     else:
         print(f"Error: Unknown Action \"{action}\"")
 
