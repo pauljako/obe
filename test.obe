@@ -1,0 +1,2 @@
+math 4 * 12
+print $LAST
