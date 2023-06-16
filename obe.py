@@ -1,11 +1,13 @@
 #!/usr/bin/python3
 
-import os
+import os, inspect
 
 # Set constants.
 VERSION = "beta0.2"
 USAGE = "obe <filepath>"
 OBS_DIR = os.path.dirname(os.path.realpath("__file__"))
+OBE_NAME = inspect.getframeinfo(inspect.currentframe()).filename
+PATH = os.path.dirname(os.path.abspath(OBE_NAME))
 
 # Set Space to default.
 space = {"LAST": None}
@@ -80,6 +82,8 @@ if __name__ == '__main__':
         # Display Version
         if sys.argv[1] == "-v" or sys.argv[1] == "--version":
             print(f"obe version: {VERSION}")
+        elif sys.argv[1] == "-p" or sys.argv[1] == "--path":
+            print(f"obe path: {PATH}")
         # Read & Runs file
         else:
             try:
