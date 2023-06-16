@@ -49,6 +49,8 @@ def run(action, arg1, arg2, arg3):
             space["LAST"] = str(int(arg1) * int(arg3))
         elif arg2 == "/":
             space["LAST"] = str(int(arg1) / int(arg3))
+    elif action == "input":
+        space["LAST"] = input(arg1)
     else:
         print(f"Error: Unknown Action \"{action}\"")
 
