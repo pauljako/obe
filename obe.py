@@ -3,10 +3,6 @@ USAGE = "obe <filepath>"
 space = {"LAST": None}
 
 
-def shell():
-    return input("obe -> ")
-
-
 def parse(code):
     global space
     spc = code.split(" ")
