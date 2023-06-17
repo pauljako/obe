@@ -72,7 +72,9 @@ def run(action, arg1, arg2, arg3):
         quit()
     elif action == "open":
         import webbrowser
-        webbrowser.open(arg1)
+        webbrowser.open(arg1, new=arg2)
+    elif action == "replace":
+        space["LAST"] = arg1.replace(arg2, arg3)
     elif action == "":
         pass
     else:
