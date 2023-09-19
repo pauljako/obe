@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 
-import os, inspect
+import os 
+import inspect
 
 # Set constants.
-VERSION = "beta0.2"
+VERSION = "beta0.3"
 USAGE = "obe <filepath>"
 OBE_DIR = os.path.dirname(os.path.realpath("__file__"))
 OBE_NAME = inspect.getframeinfo(inspect.currentframe()).filename
@@ -13,72 +14,45 @@ PATH = os.path.dirname(os.path.abspath(OBE_NAME))
 space = {"LAST": None}
 
 
+# Runs the code.
+def run(action, args, space):
+    if action == "print":
+        print(args[0])
+    elif action == "space":
+        space[args[0]] = args[1]
+    elif action == "join":
+        space["LAST"] = str(args[0]) + str(args[1])
+    elif action == "input":
+        space["LAST"] = input(args[0])
+    elif action == "run":
+        try:
+            space["LAST"] = os.system(args[0])
+        except:
+            print(f"Error: Error while running {args[0]}")
+    elif action == "quit":
+        quit()
+    elif action == "replace":
+        space["LAST"] = args[0].replace(args[1], args[2])
+    elif action == "":
+        pass
+    else:
+        print(f"Error: Unknown Action \"{action}\"")
+    return space
+
+
 # Parses Code and Runs it.
 def parse(code):
     global space
     spc = code.split(" ")
     action = spc[0]
-    try:
-        arg1 = spc[1].replace("§", " ")
-        if arg1.startswith("$"):
-            arg1 = space[arg1.replace("$", "")]
-    except:
-        arg1 = None
-    try:
-        arg2 = spc[2].replace("§", " ")
-        if arg2.startswith("$"):
-            arg2 = space[arg2.replace("$", "")]
-    except:
-        arg2 = None
-    try:
-        arg3 = spc[3].replace("§", " ")
-        if arg3.startswith("$"):
-            arg3 = space[arg3.replace("$", "")]
-    except:
-        arg3 = None
-    run(action, arg1, arg2, arg3)
-
-
-# Runs the code.
-def run(action, arg1, arg2, arg3):
-    global space
-    if action == "print":
-        print(arg1)
-    elif action == "space":
-        space[arg1] = arg2
-    elif action == "join":
-        space["LAST"] = str(arg1) + str(arg2)
-    elif action == "math":
-        if arg2 == "+":
-            space["LAST"] = int(arg1) + int(arg3)
-        elif arg2 == "-":
-            space["LAST"] = int(arg1) - int(arg3)
-        elif arg2 == "*":
-            space["LAST"] = int(arg1) * int(arg3)
-        elif arg2 == "/":
-            space["LAST"] = int(arg1) / int(arg3)
-    elif action == "input":
-        space["LAST"] = input(arg1)
-    elif action == "run":
-        try:
-            import os
-        except:
-            print("obe Error: Cannot import the os module.")
-        try:
-            space["LAST"] = os.system(arg1)
-        except:
-            print(f"Error: Error while running {arg1}")
-    elif action == "quit":
-        quit()
-    elif action == "open":
-        import webbrowser
-        webbrowser.open(arg1, new=arg2)
-    elif action == "replace":
-        space["LAST"] = arg1.replace(arg2, arg3)
-    elif action == "":
-        pass
-    else:
-        print(f"Error: Unknown Action \"{action}\"")
+    args = []
+    args_unformatted = spc[1:]
+    for a in args_unformatted:
+        e = a.replace("§", " ")
+        if e.startswith("$"):
+            e = space[e.replace("$", "")]
+        args.append(e)
+    space = run(action, args, space)
 
 
 if __name__ == '__main__':
